@@ -19,7 +19,7 @@ function sumOfDigits(num) {
   return sum;
 }
 
-const isPrime = (num) => {
+function isPerfect(num) {
   let sum  = 1;
 
   for (let i = 2; i <= Math.sqrt(num); i++) {
@@ -31,6 +31,15 @@ const isPrime = (num) => {
     }
   }
   return num === sum;
+}
+
+const isPrime = (num) => {
+    for(let i = 2, s = Math.sqrt(num); i <= s; i++) {
+        if(num % i === 0) {
+          return false;
+        }
+    }
+    return num > 1;
 }
 
 const armStrong = (num) => {
@@ -48,7 +57,7 @@ const armStrong = (num) => {
 } 
 
 app.get('/api/classify-number', async (req, res) => {
-  const number = req.query.number || "alphabet";
+  const number = req.query.number || "";
 
   try {
     const num = Number(number);
@@ -60,14 +69,14 @@ app.get('/api/classify-number', async (req, res) => {
       });
     }
   
-    const fact = await axios.get(`http://numbersapi.com/${num}/math`, { timeout: 5000 });
+    const fact = await axios.get(`http://numbersapi.com/${number}/math`, { timeout: 5000 });
 
     return res.status(200).json({
-      number: num,
+      number,
       is_prime: isPrime(num),
-      is_perfect: num === sumOfDigits(num),
-       properties: armStrong(num),
-      digit_sum: sumOfDigits(num),
+      is_perfect: isPerfect(num),
+       properties: armStrong(Math.abs(num)),
+      digit_sum: sumOfDigits(Math.abs(num)),
       fun_fact: `${fact.data}`
     });
 

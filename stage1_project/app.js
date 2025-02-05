@@ -20,16 +20,21 @@ function sumOfDigits(num) {
 }
 
 const isPrime = (num) => {
-    for(let i = 2, s = Math.sqrt(num); i <= s; i++) {
-        if(num % i === 0) {
-          return false;
+  let sum  = 1;
+
+  for (let i = 2; i <= Math.sqrt(num); i++) {
+    if (n % i === 0) {
+        sum += i;
+        if (i !== num / i) {
+            sum += num / i;
         }
     }
-    return num > 1;
+  }
+  return num === sum;
 }
 
 const armStrong = (num) => {
-  let oddEven = num % 2 === 0 ? "Even" : "odd";
+  let oddEven = num % 2 === 0 ? "even" : "odd";
 
   let sum = 0;
   const numberString = num.toString();
@@ -43,14 +48,14 @@ const armStrong = (num) => {
 } 
 
 app.get('/api/classify-number', async (req, res) => {
-  const number = req.query.number || "nil";
+  const number = req.query.number || "alphabet";
 
   try {
     const num = Number(number);
 
-    if (isNaN(num) || num < 0) {
+    if (isNaN(num)) {
       return res.status(400).json({
-        number: "alphabet",
+        number,
         "error": true 
       });
     }

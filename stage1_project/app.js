@@ -23,7 +23,7 @@ const isPrime = (num) => {
   let sum  = 1;
 
   for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (n % i === 0) {
+    if (num % i === 0) {
         sum += i;
         if (i !== num / i) {
             sum += num / i;
